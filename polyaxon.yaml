@@ -14,5 +14,5 @@ component:
         - name: OUT_DIR
           value: "{{ globals.run_outputs_path }}"
       resources:
-        requests: {nvidia.com/gpu: 1, cpu: 8, memory: 32Gi}
-        limits:   {nvidia.com/gpu: 1, cpu: 8, memory: 32Gi}
+        requests: {cpu: 16, memory: 32Gi}
+        limits:   {cpu: 16, memory: 32Gi}
