@@ -7,11 +7,18 @@
 #SBATCH -t 12:00:00     # Run time (hh:mm:ss)
 #SBATCH -p mi2508x      # Desired partition
 
-export STAGE=$1
-export DATASETS=$2
-export JOBS=$3
-export PRIOR=$4
+export MODE=$1
 
-uv run --no-sync jupyter nbconvert --to notebook --execute \
-    --inplace --ExecutePreprocessor.timeout=-1 \
-    --output notebooks/analysis_stage${STAGE}.ipynb analysis.ipynb
+if [ "$MODE" = "real" ]; then
+    export JOBS=$2
+elif [ "$MODE" = "synthetic" ]; then
+    export STAGE=$2
+    export JOBS=$3
+    export PRIOR=$4
+else
+    echo "uso: run.sh real JOBS | run.sh synthetic STAGE JOBS PRIOR"
+    exit 1
+fi
+
+uv run --no-sync jupyter nbconvert --to notebook --execute --inplace \
+    --ExecutePreprocessor.timeout=-1 notebooks/02_extract.ipynb
