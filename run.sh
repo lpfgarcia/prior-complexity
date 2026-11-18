@@ -11,12 +11,14 @@ export MODE=$1
 
 if [ "$MODE" = "real" ]; then
     export JOBS=$2
+    NAME=real
 elif [ "$MODE" = "synthetic" ]; then
     export STAGE=$2
-    export JOBS=$3
-    export PRIOR=$4
+    export DATASETS=$3
+    export JOBS=$4
+    export PRIOR=$5
 else
-    echo "uso: run.sh real JOBS | run.sh synthetic STAGE JOBS PRIOR"
+    echo "uso: run.sh real JOBS | run.sh synthetic STAGE DATASETS JOBS PRIOR"
     exit 1
 fi
 
