@@ -28,4 +28,4 @@ dev = [
 package = false
 
 [tool.uv.sources]
-pymfe = { git = "https://github.com/lpfgarcia/pymfe", rev = "7a7db89b4d0dd71c002db1764186b75194a473cd" }
+pymfe = { git = "https://github.com/lpfgarcia/pymfe", rev = "a87f9d1944aedf2311270ee1dd530633936e64cb" }
