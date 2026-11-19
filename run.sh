@@ -22,5 +22,5 @@ else
     exit 1
 fi
 
-uv run --no-sync jupyter nbconvert --to notebook --execute --inplace \
+uv run --no-sync jupyter nbconvert --to notebook --execute --output 02_extract_$NAME.ipynb \
     --ExecutePreprocessor.timeout=-1 notebooks/02_extract.ipynb
