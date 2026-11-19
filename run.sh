@@ -17,6 +17,7 @@ elif [ "$MODE" = "synthetic" ]; then
     export DATASETS=$3
     export JOBS=$4
     export PRIOR=$5
+    NAME=synthetic_stage$STAGE
 else
     echo "uso: run.sh real JOBS | run.sh synthetic STAGE DATASETS JOBS PRIOR"
     exit 1
