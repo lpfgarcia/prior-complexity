@@ -32,21 +32,12 @@ The package `pymfe` is installed from a fork pinned to a specific commit.
 ## Pipeline
  
 1. **`01_data.ipynb`:** downloads TabArena from OpenML and converts TALENT into `data/processed/`, dropping TALENT datasets that duplicate TabArena ones. The processed CSVs are already in the repository; to regenerate TALENT, download the raw data from the [TALENT benchmark](https://github.com/LAMDA-Tabular/TALENT) into `data/raw/`.
-2. **`02_extract.ipynb`:** extracts the complexity measures (`f1`–`f4`, `l1`–`l3`, `n1`–`n3`, `t1`–`t4`, `c1`, `c2`) from the real datasets or from datasets sampled from the Kumo prior, appending them to `results/` as it goes. Run it with `run.sh`:
-```bash
-sbatch run.sh real JOBS                             # → results/real.csv
-sbatch run.sh synthetic STAGE DATASETS JOBS PRIOR   # → results/kumo_stage{STAGE}.csv
-```
- 
-   `JOBS` and `PRIOR` are the worker processes for the extraction and for the prior sampler.
+2. **`02_extract.ipynb`:** extracts the complexity measures from the real datasets or from datasets sampled from the Kumo prior, appending them to `results/` as it goes. Run it with `run.sh`.
 3. **`03_compare.ipynb`:** plots and compares the measures.
 
 ## Results
 
-| File                          | Content                                    |
-|-------------------------------|--------------------------------------------|
-| `results/real.csv`            | TabArena and TALENT datasets               |
-| `results/kumo_stage{1,2,3}.csv` | synthetic datasets of each Kumo stage    |
+The complexity measures are saved in `results/`, one row per dataset: `real.csv` for the real datasets (TabArena and TALENT) and `kumo_stage{1,2,3}.csv` for the synthetic datasets of each Kumo stage.
 
 ## License
 
