@@ -8,15 +8,13 @@ This project samples classification datasets from the **Kumo Tabular synthetic p
 
 ```
 data/processed/     # real datasets as CSVs (Git LFS)
-  tabarena/         #   38 classification tasks from TabArena v0.1
-  talent/           #   183 classification datasets from TALENT (TabArena duplicates removed)
+  tabarena/         #  38 classification tasks from TabArena v0.1
+  talent/           #  183 classification datasets from TALENT (duplicates removed)
 notebooks/          # 01_data → 02_extract → 03_compare
 results/            # complexity measures, one row per dataset
 src/kumo_prior/     # standalone copy of the Kumo Tabular prior
 run.sh              # SLURM job that runs 02_extract.ipynb
 ```
-
-Every processed CSV has the features in the first columns and the label-encoded target in the last column (`target`).
 
 ## Setup
 
@@ -29,24 +27,7 @@ cd prior-complexity
 uv sync
 ```
 
-`pymfe` is installed from a fork pinned to a specific commit (see `pyproject.toml`).
-
-## The Kumo prior
-
-`src/kumo_prior` is a standalone copy of the Kumo Tabular prior, with the presets of each pre-training stage ([arXiv:2611.23001](https://arxiv.org/abs/2611.23001)):
-
-| Stage | Rows per dataset          | Train fraction | Notes                                                        |
-|-------|---------------------------|----------------|--------------------------------------------------------------|
-| 1     | 1,024 (fixed)             | 30%–90%        | most augmentations off, trivial datasets always rejected     |
-| 2     | 400–10,240 (log-uniform)  | 79%–81%        | every augmentation at its default probability                |
-| 3     | 400–60,000 (log-uniform)  | 79%–81%        | replay of small datasets and column caps per row count       |
-
-```python
-from kumo_prior import sample_datasets
-
-for ds in sample_datasets('clf', stage=1, n_datasets=10, seed=0):
-    print(ds['X'].shape, ds['y'].shape)
-```
+The package `pymfe` is installed from a fork pinned to a specific commit.
 
 ## Pipeline
  
