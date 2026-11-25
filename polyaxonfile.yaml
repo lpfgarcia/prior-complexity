@@ -1,0 +1,30 @@
+kind: operation
+queue: axia/default
+name: prior-complexity
+params:
+  mode: {value: synthetic}   # real | synthetic
+  stage: {value: 1}          # 1 | 2 | 3 (only for synthetic)
+  datasets: {value: 1000}    # number of sampled datasets (only for synthetic)
+  jobs: {value: 64}          # pymfe worker processes
+component:
+  kind: component
+  inputs:
+    - {name: mode, type: str}
+    - {name: stage, type: int}
+    - {name: datasets, type: int}
+    - {name: jobs, type: int}
+  run:
+    kind: job
+    connections: [local-scratch, axia-artifacts]
+    container:
+      image: python:3.13
+      imagePullPolicy: Always
+      workingDir: "{{ globals.artifacts_path }}/{{ globals.uuid }}/uploads"
+      command: ["bash", "polyaxon.sh"]
+      args: ["{{ mode }}", "{{ stage }}", "{{ datasets }}", "{{ jobs }}"]
+      env:
+        - name: OUT_DIR
+          value: "{{ globals.run_outputs_path }}"
+      resources:
+        requests: {cpu: 64, memory: 256Gi}
+        limits:   {cpu: 64, memory: 256Gi}
