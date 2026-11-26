@@ -1,0 +1,34 @@
+# Smoke test: same job as polyaxonfile.yaml, small and fast.
+# polyaxon run -p kunumi/tabular -f polyaxonfile.smoke.yaml -u -P stage=1
+kind: operation
+queue: axia/default
+name: prior-complexity-smoke
+params:
+  mode: {value: synthetic}   # real | synthetic
+  stage: {value: 1}          # 1 | 2 | 3 (only for synthetic)
+  datasets: {value: 8}       # few datasets, just to exercise the pipeline
+  jobs: {value: 4}
+component:
+  kind: component
+  inputs:
+    - {name: mode, type: str}
+    - {name: stage, type: int}
+    - {name: datasets, type: int}
+    - {name: jobs, type: int}
+  run:
+    kind: job
+    connections: [local-scratch, axia-artifacts]
+    container:
+      image: python:3.13
+      imagePullPolicy: Always
+      workingDir: "{{ globals.artifacts_path }}/{{ globals.uuid }}/uploads"
+      command: ["bash", "polyaxon.sh"]
+      args: ["{{ mode }}", "{{ stage }}", "{{ datasets }}", "{{ jobs }}"]
+      env:
+        - name: OUT_DIR
+          value: "{{ globals.run_outputs_path }}"
+        - name: SMOKE
+          value: "1"
+      resources:
+        requests: {cpu: 4, memory: 16Gi}
+        limits:   {cpu: 4, memory: 16Gi}

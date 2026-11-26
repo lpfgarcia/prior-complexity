@@ -5,3 +5,6 @@ __pycache__/
 .ipynb_checkpoints/
 notebooks/.ipynb_checkpoints/
 data/raw/
+# not used by the extraction job
+results/tabicl_*.csv
+.claude/

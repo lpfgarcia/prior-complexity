@@ -22,5 +22,7 @@ else
     exit 1
 fi
 
+export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
+
 uv run --no-sync jupyter nbconvert --to notebook --execute --output 02_extract_$NAME.ipynb \
     --ExecutePreprocessor.timeout=-1 notebooks/02_extract.ipynb
