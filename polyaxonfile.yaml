@@ -2,6 +2,7 @@ kind: operation
 queue: axia/default
 name: prior-complexity
 params:
+  ref: {value: polyaxon}     # branch, tag ou commit do GitHub a rodar
   mode: {value: synthetic}   # real | synthetic
   stage: {value: 1}          # 1 | 2 | 3 (só synthetic)
   datasets: {value: 1000}    # número de datasets amostrados (só synthetic)
@@ -9,6 +10,7 @@ params:
 component:
   kind: component
   inputs:
+    - {name: ref, type: str}
     - {name: mode, type: str}
     - {name: stage, type: int}
     - {name: datasets, type: int}
@@ -19,13 +21,16 @@ component:
     container:
       image: python:3.13
       imagePullPolicy: Always
-      workingDir: "{{ globals.artifacts_path }}/{{ globals.uuid }}/uploads"
       command: ["bash", "-c"]
       args:
         - >-
+          git clone https://github.com/lpfgarcia/prior-complexity.git /tmp/repo &&
+          cd /tmp/repo && git checkout {{ ref }} &&
           if [ "{{ mode }}" = real ]; then bash polyaxon.sh real {{ jobs }};
           else bash polyaxon.sh synthetic {{ stage }} {{ datasets }} {{ jobs }}; fi
       env:
+        - name: GIT_LFS_SKIP_SMUDGE   # os CSVs reais (LFS) só são baixados no modo real
+          value: "1"
         - name: OUT_DIR
           value: "{{ globals.run_outputs_path }}"
       resources:
