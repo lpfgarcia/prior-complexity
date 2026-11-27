@@ -1,2 +1,1 @@
-tabarena/*.csv filter=lfs diff=lfs merge=lfs -text
-talent/*.csv filter=lfs diff=lfs merge=lfs -text
+data/processed/*.csv filter=lfs diff=lfs merge=lfs -text
