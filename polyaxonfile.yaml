@@ -3,9 +3,9 @@ queue: axia/default
 name: prior-complexity
 params:
   mode: {value: synthetic}   # real | synthetic
-  stage: {value: 1}          # 1 | 2 | 3 (only for synthetic)
-  datasets: {value: 1000}    # number of sampled datasets (only for synthetic)
-  jobs: {value: 64}          # pymfe worker processes
+  stage: {value: 1}          # 1 | 2 | 3 (só synthetic)
+  datasets: {value: 1000}    # número de datasets amostrados (só synthetic)
+  jobs: {value: 64}          # processos do pymfe (manter = cpu)
 component:
   kind: component
   inputs:
@@ -20,8 +20,11 @@ component:
       image: python:3.13
       imagePullPolicy: Always
       workingDir: "{{ globals.artifacts_path }}/{{ globals.uuid }}/uploads"
-      command: ["bash", "polyaxon.sh"]
-      args: ["{{ mode }}", "{{ stage }}", "{{ datasets }}", "{{ jobs }}"]
+      command: ["bash", "-c"]
+      args:
+        - >-
+          if [ "{{ mode }}" = real ]; then bash polyaxon.sh real {{ jobs }};
+          else bash polyaxon.sh synthetic {{ stage }} {{ datasets }} {{ jobs }}; fi
       env:
         - name: OUT_DIR
           value: "{{ globals.run_outputs_path }}"
