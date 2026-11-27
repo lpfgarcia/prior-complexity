@@ -15,7 +15,7 @@ All real datasets are stored in a single folder, `data/processed/`, as `<source>
 | `grinsztajn` | [Grinsztajn et al. (2022)](https://github.com/LeoGrin/tabular-benchmark), classification on numerical and categorical features (OpenML suite 334) | 6 |
 | `talent` | [TALENT](https://github.com/LAMDA-Tabular/TALENT), binary and multiclass datasets | 144 |
 
-The same dataset often appears in more than one benchmark. Duplicates are found by comparing names in lowercase with every non-alphanumeric character removed (so `seismic-bumps` and `seismic+bumps` match), and only the first file in alphabetical order is kept. Datasets with more than 1M rows are dropped.
+The same dataset often appears in more than one benchmark. Duplicates are found by comparing names in lowercase with every non-alphanumeric character removed, and only the first file in alphabetical order is kept. Datasets with more than 1M rows are dropped.
 
 ## Repository structure
 
